@@ -1,5 +1,7 @@
 # Ansible Role: Black Mesa
 
+[![builds.sr.ht status](https://builds.sr.ht/~tleguern/ansible-role-black-mesa.svg)](https://builds.sr.ht/~tleguern/ansible-role-black-mesa?)
+
 An Ansible role that installs and configures a Black Mesa dedicated server.
 
 The game server is downloaded through Steam and exposed as a systemd service for easier management.
