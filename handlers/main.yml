@@ -1,0 +1,16 @@
+---
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Restart black-mesa
+  service:
+    name: black-mesa
+    state: restarted
+  listen: "Restart source games"
+
+- name: Stop black-mesa
+  service:
+    name: black-mesa
+    state: stopped
+  listen: "Stop source games"

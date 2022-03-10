@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: black_mesa
+  author: Tristan Le Guern
+  description: Configure a Black Mesa server
+  company: Gwern
+  license: ISC
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+    - name: Debian
+  galaxy_tags:
+    - blackmesa
+    - halflife
+dependencies: []

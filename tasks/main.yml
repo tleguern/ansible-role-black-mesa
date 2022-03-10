@@ -1,0 +1,66 @@
+---
+- name: Check if steam_home is defined.
+  assert:
+    that: steam_home is defined
+
+- block:
+    - name: Check if Black Mesa dedicated server is installed.
+      stat:
+        path: "{{ steam_home }}/steamapps/common/Black Mesa Dedicated Server"
+      register: __blackmesa_exists
+
+    - name: Install Black Mesa dedicated server.
+      command: "{{ steamcmd_bin }} +login anonymous +app_update 346680 +validate +quit"
+      when: not __blackmesa_exists.stat.exists
+
+    - name: Ensure Black Mesa dedicated server is up to date.
+      command: "{{ steamcmd_bin }} +login anonymous +app_update 346680 +validate +quit"
+      register: __blackmesa_update
+      changed_when: "'already up to date' not in __blackmesa_update.stdout"
+      when: __blackmesa_exists.stat.exists
+  become_user: "{{ steamcmd_user }}"
+
+- name: Create a symlink to steam home directory.
+  file:
+    src: "{{ steam_home }}/steamapps/common/Black Mesa Dedicated Server"
+    dest: "/home/{{ steamcmd_user }}/black-mesa"
+    owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    state: link
+
+- name: Ensure mapcycle.txt is installed.
+  template:
+    dest: "/home/{{ steamcmd_user }}/black-mesa/bms/cfg/mapcycle.txt"
+    src: mapcycle.txt.j2
+    owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+  notify: Restart black-mesa
+
+- name: Ensure server.cfg is installed.
+  template:
+    dest: "/home/{{ steamcmd_user }}/black-mesa/bms/cfg/server.cfg"
+    src: server.cfg.j2
+    owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+  notify: Restart black-mesa
+
+- name: Ensure systemd unit is installed.
+  template:
+    src: black-mesa.service.j2
+    dest: /etc/systemd/system/black-mesa.service
+  notify:
+    - Reload systemd
+    - Restart black-mesa
+
+- name: Flush handlers.
+  meta: flush_handlers
+
+- name: Ensure black-mesa is enabled at boot.
+  service:
+    name: black-mesa
+    enabled: yes
+
+- name: Ensure black-mesa is started.
+  service:
+    name: black-mesa
+    state: started

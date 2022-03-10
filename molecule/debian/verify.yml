@@ -1,0 +1,18 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Query server status
+    command: rcon -p 27015 -H 127.0.0.1 -P srht status
+    register: rcon
+  - assert:
+      that:
+        - rcon.rc == 0
+  - set_fact:
+      hostname: "{{ rcon.stdout_lines[0].split(':')[1].strip() }}"
+      map: "{{ rcon.stdout_lines[4].split(':')[1].strip().split(' ')[0] }}"
+  - assert:
+      that:
+        - hostname == "SourceHut test Black Mesa Server"
+        - map == "dm_chopper"

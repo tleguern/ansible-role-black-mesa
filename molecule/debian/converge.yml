@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    metamod_source_install_path: /home/steam/black-mesa/bms
+    black_mesa_ip: 127.0.0.1
+    black_mesa_start_map: chopper
+    black_mesa_mapcycle:
+      - dm_chopper
+    black_mesa_server_cfg: |
+      hostname "SourceHut test Black Mesa Server"
+      rcon_password srht
+  tasks:
+    - name: "Include tleguern.steamcmd"
+      include_role:
+        name: "tleguern.steamcmd"
+    - name: "Include ansible-role-black-mesa"
+      include_role:
+        name: "ansible-role-black-mesa"

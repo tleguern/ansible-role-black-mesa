@@ -1,0 +1,8 @@
+---
+steamcmd_user: steam
+steamcmd_bin: /usr/games/steamcmd
+black_mesa_server_cfg: ""
+black_mesa_port: 27015
+black_mesa_ip: 0.0.0.0
+black_mesa_maxplayers: 24 # Server won't start if this value is not defined.
+black_mesa_start_map: gasworks

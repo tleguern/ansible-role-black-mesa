@@ -1,0 +1,12 @@
+[Unit]
+Description=Black Mesa Dedicated Server
+Documentation=https://developer.valvesoftware.com/wiki/Source_Dedicated_Server
+After=syslog.target network.target
+
+[Service]
+User={{ steamcmd_user }}
+ExecStart=/home/{{ steamcmd_user }}/black-mesa/srcds_run -game bms -port {{ black_mesa_port }} +ip {{ black_mesa_ip }} +map {{ black_mesa_start_map }} +maxplayers {{ black_mesa_maxplayers }}
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
