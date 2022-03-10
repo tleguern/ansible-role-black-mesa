@@ -1,35 +1,28 @@
 ---
 dependency:
   name: galaxy
-  options:
-    role-file: molecule/requirements.yml
-    requirements-file: molecule/requirements.yml
+  enabled: no
 driver:
   name: delegated
   options:
-    managed: false
+    managed: no
     ansible_connection_options:
       ansible_connection: local
+lint: |
+  yamllint */*.yml */*/*.yml
 platforms:
   - name: instance
 provisioner:
   name: ansible
   config_options:
     defaults:
-      stdout_callback: yaml
       interpreter_python: /usr/bin/python3
 verifier:
   name: ansible
 scenario:
   check_sequence:
-    - dependency
-    - converge
-    - check
+    - lint
   converge_sequence:
-    - dependency
-    - converge
+    - lint
   test_sequence:
-    - dependency
-    - converge
-    - idempotence
-    - verify
+    - lint

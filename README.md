@@ -7,7 +7,8 @@ An Ansible role that installs and configures a Black Mesa dedicated server.
 The game server is downloaded through Steam and exposed as a systemd service for easier management.
 Using this role it is possible to publish a minimalist deathmatch server.
 
-Automatic testing is provided using molecule's delegated driver and <https://builds.sr.ht>.
+Automatic linting is provided using molecule's delegated driver and <https://builds.sr.ht>.
+A Black Mesa dedicated server is roughly 27Go of data, which is too much for SourceHut's build servers.
 
 ## Requirements
 
