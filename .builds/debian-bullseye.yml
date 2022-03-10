@@ -5,6 +5,7 @@ packages:
   - python3-wheel
   - python3-setuptools
   - acl
+  - yamllint
   - build-essential # rcon dependencies
   - cmake
   - check
